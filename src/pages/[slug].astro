@@ -1,0 +1,96 @@
+---
+import '../styles/global.css';
+import cheats from '../cheats.json';
+
+export async function getStaticPaths() {
+  return cheats.map((item) => ({
+    params: { slug: item.slug },
+    props: { item },
+  }));
+}
+
+const { item } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{item.title} — Скачать бесплатно</title>
+    <meta name="description" content={item.text}>
+</head>
+<body class="bg-[#0d0e12] text-gray-100 min-h-screen flex flex-col font-sans">
+
+    <header class="bg-[#14161d] border-b border-white/10 sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2">
+                <span class="bg-gradient-to-r from-pink-500 to-orange-500 text-white font-black px-2.5 py-1 rounded text-sm">GTA VI</span>
+                <span class="font-extrabold text-lg text-white">MODS & CHEATS</span>
+            </a>
+            <a href="/" class="text-sm text-gray-400 hover:text-white transition">← Назад в каталог</a>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 py-10 flex-grow w-full">
+        <!-- Хлебные крошки (важно для SEO) -->
+        <nav class="text-xs text-gray-400 mb-4 flex gap-2">
+            <a href="/" class="hover:text-pink-400">Главная</a>
+            <span>/</span>
+            <span class="text-gray-300">{item.category}</span>
+        </nav>
+
+        <article class="bg-[#161821] border border-white/10 rounded-2xl overflow-hidden shadow-2xl">
+            <div class="relative h-64 sm:h-80 w-full">
+                <img src={item.image} alt={item.title} class="w-full h-full object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-t from-[#161821] via-transparent to-transparent"></div>
+                <div class="absolute bottom-4 left-6 flex gap-2">
+                    <span class="bg-pink-600 text-white text-xs font-bold px-3 py-1 rounded-md">{item.category}</span>
+                    <span class="bg-black/70 text-gray-200 text-xs px-3 py-1 rounded-md">Обновлено: {item.date}</span>
+                </div>
+            </div>
+
+            <div class="p-6 sm:p-8">
+                <h1 class="text-2xl sm:text-3xl font-black text-white mb-4 leading-tight">
+                    {item.title}
+                </h1>
+
+                <p class="text-gray-300 text-base leading-relaxed mb-8">
+                    {item.text}
+                </p>
+
+                <!-- Блок скачивания как на игровых порталах -->
+                <div class="bg-[#0d0e12] border border-pink-500/30 rounded-xl p-6 mb-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+                    <div class="space-y-1 text-center sm:text-left">
+                        <div class="flex items-center justify-center sm:justify-start gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span class="text-emerald-400 font-bold text-sm">Файл проверен • Вирусов нет</span>
+                        </div>
+                        <p class="text-xs text-gray-400">Размер: <strong class="text-gray-200">{item.size}</strong> • Скачиваний: <strong class="text-gray-200">{item.downloads}</strong> • Рейтинг: <strong class="text-amber-400">★ {item.rating}/5</strong></p>
+                    </div>
+
+                    <a href="/download/gta6-config.zip" class="w-full sm:w-auto bg-gradient-to-r from-pink-600 to-orange-500 hover:from-pink-500 hover:to-orange-400 text-white font-black px-8 py-4 rounded-xl transition-all shadow-lg shadow-pink-600/25 text-center uppercase tracking-wider text-sm">
+                        ⬇ Скачать файл ({item.size})
+                    </a>
+                </div>
+
+                <!-- Инструкция -->
+                <div class="bg-[#1d202b] rounded-xl p-6 border border-white/5">
+                    <h2 class="text-lg font-bold text-white mb-3">Как установить и активировать:</h2>
+                    <ol class="list-decimal list-inside space-y-2.5 text-sm text-gray-300">
+                        <li>Скачайте архив с файлами по кнопке выше.</li>
+                        <li>Распакуйте содержимое в корневую папку с установленной GTA 6.</li>
+                        <li>Запустите одиночный режим игры (не заходите с модами в GTA Online).</li>
+                        <li>Используйте клавишу <kbd class="bg-black/50 border border-white/20 px-2 py-0.5 rounded text-xs font-mono text-pink-400">F4</kbd> или внутриигровой телефон для активации функций.</li>
+                    </ol>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer class="bg-[#14161d] border-t border-white/10 py-8 text-center text-xs text-gray-500">
+        <p>© 2026 GTA 6 Mods & Cheats Portal. Все права защищены.</p>
+    </footer>
+
+</body>
+</html>
